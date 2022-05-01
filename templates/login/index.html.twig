@@ -1,0 +1,59 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row row--grid">
+            <!-- breadcrumb -->
+            <div class="col-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb__item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb__item breadcrumb__item--active">Sign in</li>
+                </ul>
+            </div>
+            <!-- end breadcrumb -->
+
+            <!-- sign in -->
+            <div class="col-12">
+                <div class="sign">
+                    <div class="sign__content">
+                        <!-- authorization form -->
+                        <form action="{{ path('app_login') }}" method="post" class="sign__form">
+                            <a href="{{ path('page-home') }}" class="sign__logo">
+                                <img src="{{ asset('img/logo.svg') }}" alt="">
+                            </a>
+                            {% if error %}
+                                <div style="color: red">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+
+                            <div class="sign__group">
+                                <input type="text" name="_username" value="{{ last_username }}" class="sign__input" placeholder="Email">
+                            </div>
+
+                            <div class="sign__group">
+                                <input type="password" name="_password" class="sign__input" placeholder="Password">
+                            </div>
+
+{#                            <div class="sign__group sign__group--checkbox">#}
+{#                                <input id="remember" name="remember" type="checkbox" checked="checked">#}
+{#                                <label for="remember">Remember Me</label>#}
+{#                            </div>#}
+
+                            <button class="sign__btn" type="submit">Sign in</button>
+
+                            <input type="hidden" name="_target_path" value="{{ path('page-home') }}"/>
+                            <span class="sign__text">Don't have an account? <a href="{{ path('app_register') }}">Sign up!</a></span>
+
+{#                            <span class="sign__text"><a href="forgot.html">Forgot password?</a></span>#}
+                        </form>
+                        <!-- end authorization form -->
+                    </div>
+                </div>
+            </div>
+            <!-- end sign in -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+{% endblock %}

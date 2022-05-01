@@ -1,0 +1,62 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Register</h1>
+    <!-- main content -->
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row row--grid">
+                <!-- breadcrumb -->
+                <div class="col-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb__item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb__item breadcrumb__item--active">Sign up</li>
+                    </ul>
+                </div>
+                <!-- end breadcrumb -->
+
+                <!-- registration form -->
+                <div class="col-12">
+                    <div class="sign">
+                        <div class="sign__content">
+                                {{ form_start(registrationForm, {'attr': {
+                                    'class': 'sign__form',
+                                }}) }}
+                                <a href="{{ path('page-home') }}" class="sign__logo">
+                                    <img src="{{ asset('img/logo.svg') }}" alt="">
+                                </a>
+
+                                <div class="sign__group">
+                                    {{ form_widget(registrationForm.name, {'attr': {
+                                        'class': 'sign__input',
+                                        'placeholder': 'Name'
+                                    }}) }}
+                                </div>
+
+                                <div class="sign__group">
+                                    {{ form_widget(registrationForm.email, {'attr': {
+                                        'class': 'sign__input',
+                                        'placeholder': 'Email'
+                                    }}) }}
+                                </div>
+
+                                <div class="sign__group">
+                                    {{ form_widget(registrationForm.plainPassword, {'attr': {
+                                        'class': 'sign__input',
+                                        'placeholder': 'Password'
+                                    }}) }}
+                                </div>
+
+                                <input class="sign__btn" type="submit" value="Sign up">
+
+                                <span class="sign__text">Already have an account? <a href="{{ path('app_login') }}">Sign in!</a></span>
+                            {{ form_end(registrationForm) }}
+                        </div>
+                    </div>
+                </div>
+                <!-- end registration form -->
+            </div>
+        </div>
+    </main>
+    <!-- end main content -->
+{% endblock %}
