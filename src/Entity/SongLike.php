@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SongLikeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: SongLikeRepository::class)]
 class SongLike
@@ -41,12 +42,12 @@ class SongLike
         return $this;
     }
 
-    public function getFromUser(): ?User
+    public function getFromUser(): ?UserInterface
     {
         return $this->fromUser;
     }
 
-    public function setFromUser(?User $fromUser): self
+    public function setFromUser(?UserInterface $fromUser): self
     {
         $this->fromUser = $fromUser;
 
@@ -63,5 +64,21 @@ class SongLike
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSongId()
+    {
+        return $this->songId;
+    }
+
+    /**
+     * @param mixed $songId
+     */
+    public function setSongId($songId): void
+    {
+        $this->songId = $songId;
     }
 }

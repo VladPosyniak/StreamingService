@@ -45,6 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -148,5 +149,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

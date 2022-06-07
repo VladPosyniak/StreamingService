@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Album;
+use App\Model\AlbumsPageModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -45,6 +46,23 @@ class AlbumRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    /**
+     * @return Album[] Returns an array of Song objects
+     */
+    public function findByAlbumsModel(AlbumsPageModel $model): array
+    {
+        $query = $this->createQueryBuilder('a')
+            ->setMaxResults($model->getLimit());
+
+        if ($model->getSearchWord() !== null) {
+            $query = $query
+                ->where('LOWER(a.name) LIKE :albumName')
+                ->setParameter('albumName', '%' . strtolower($model->getSearchWord()) . '%');
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     // /**

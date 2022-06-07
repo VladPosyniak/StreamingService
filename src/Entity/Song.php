@@ -24,6 +24,9 @@ class Song
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $path;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $cover;
+
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
@@ -151,6 +154,27 @@ class Song
         }
 
         return $this;
+    }
+
+    public function getCover(): ?string
+    {
+        return $this->cover;
+    }
+
+    /**
+     * @param mixed $cover
+     */
+    public function setCover(?string $cover): void
+    {
+        $this->cover = $cover;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
 }

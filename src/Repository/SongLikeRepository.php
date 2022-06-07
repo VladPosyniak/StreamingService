@@ -3,10 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\SongLike;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<SongLike>
@@ -21,6 +23,21 @@ class SongLikeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SongLike::class);
+    }
+
+
+    public function getMostLikedSongIds(int $limit): array
+    {
+        $connection = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT song_id, COUNT(song_id) cnt FROM song_like GROUP BY song_id ORDER BY cnt DESC LIMIT :limit';
+
+        return $connection->prepare($sql)->executeQuery(['limit' => $limit])->fetchFirstColumn();
+    }
+
+    /** @return SongLike[] */
+    public function getByUser(UserInterface $user): array
+    {
+        return $this->findBy(['fromUser' => $user]);
     }
 
     /**

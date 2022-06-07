@@ -21,10 +21,13 @@ class Artist
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $cover;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $description;
+
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
-    #[ORM\OneToMany(mappedBy: 'artistId', targetEntity: Album::class)]
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Album::class)]
     private $albums;
 
     public function __construct()
@@ -85,21 +88,19 @@ class Artist
     {
         if (!$this->albums->contains($album)) {
             $this->albums[] = $album;
-            $album->setArtistId($this);
+            $album->setArtist($this);
         }
 
         return $this;
     }
 
-    public function removeAlbum(Album $album): self
+    public function getDescription(): string
     {
-        if ($this->albums->removeElement($album)) {
-            // set the owning side to null (unless already changed)
-            if ($album->getArtistId() === $this) {
-                $album->setArtistId(null);
-            }
-        }
+        return $this->description;
+    }
 
-        return $this;
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 }

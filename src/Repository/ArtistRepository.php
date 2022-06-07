@@ -3,6 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Artist;
+use App\Entity\Song;
+use App\Model\ArtistsPageModel;
+use App\Model\ReleasePageModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -21,6 +24,28 @@ class ArtistRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Artist::class);
+    }
+
+    /**
+     * @return Artist[] Returns an array of Song objects
+     */
+    public function findByArtistsModel(ArtistsPageModel $model): array
+    {
+        $query = $this->createQueryBuilder('a')
+            ->setMaxResults($model->getLimit());
+
+        if ($model->getSearchWord() !== null) {
+            $query = $query
+                ->where('LOWER(a.name) LIKE :artistName')
+                ->setParameter('artistName', '%' . strtolower($model->getSearchWord()) . '%');
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function getNewArtists(int $limit): array
+    {
+        return $this->findBy([], ['createdAt' => 'DESC'], $limit);
     }
 
     /**
